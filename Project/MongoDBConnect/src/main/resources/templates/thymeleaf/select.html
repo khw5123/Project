@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous"/>
+        <title>조회</title>
+    </head>
+    <body>
+        <h3>부품 : <span th:text="${type}"></span></h3>
+        <form action="select" method="post">
+            입력 : <input type="text" name="type" placeholder="종류">
+            <input type="submit" value="조회">
+        </form>
+        <div id="mainHide">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="col-md-1">종류</th>
+                    <th class="col-md-2">이름</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="hardware : ${hardwareList}">
+                    <td th:text="${hardware.getType()}"></td>
+                    <td th:text="${hardware.getName()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="navyBtn" onClick="location.href='index'">메인 페이지로</button>
+    </body>
+</html>
