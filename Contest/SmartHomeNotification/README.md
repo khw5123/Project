@@ -17,13 +17,13 @@
 
 ## 2. SW 아키텍처
 <p align="center">
-    <img src="/resources/image/Architecture.png", width="640">
+    <img src="/Contest/SmartHomeNotification/resources/image/Architecture.png", width="640">
 </p>
 
-- [라즈베리 파이](https://github.com/khw5123/SmartHomeNotification/tree/master/RaspberryPi) 및 [카카오톡](https://github.com/khw5123/SmartHomeNotification/tree/master/KakaoTalk)에 대한 구체적인 설명
-- [웹 스트리밍](https://github.com/khw5123/SmartHomeNotification/tree/master/WebStreaming) 및 [이미지 인식](https://github.com/khw5123/SmartHomeNotification/tree/master/FaceRecognition)에 대한 구체적인 설명
-- [서버 및 웹](https://github.com/khw5123/SmartHomeNotification/tree/master/WebServer)에 대한 구체적인 설명
-- [아두이노](https://github.com/khw5123/SmartHomeNotification/tree/master/Arduino)에 대한 구체적인 설명
+- [라즈베리 파이](https://github.com/khw5123/Study/tree/master/Contest/SmartHomeNotification/RaspberryPi) 및 [카카오톡](https://github.com/khw5123/Study/tree/master/Contest/SmartHomeNotification/KakaoTalk)에 대한 구체적인 설명
+- [웹 스트리밍](https://github.com/khw5123/Study/tree/master/Contest/SmartHomeNotification/WebStreaming) 및 [이미지 인식](https://github.com/khw5123/Study/tree/master/Contest/SmartHomeNotification/FaceRecognition)에 대한 구체적인 설명
+- [서버 및 웹](https://github.com/khw5123/Study/tree/master/Contest/SmartHomeNotification/WebServer)에 대한 구체적인 설명
+- [아두이노](https://github.com/khw5123/Study/tree/master/Contest/SmartHomeNotification/Arduino)에 대한 구체적인 설명
 
 ## 3. 데모 및 시연 영상
 - 데모: [http://106.10.35.183:8080/safehome](http://106.10.35.183:8080/safehome)
