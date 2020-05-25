@@ -70,7 +70,7 @@ n, m = map(int, input().split()) # 소의 수, 축사 수
 v, _capacity = n+m+2, 1 # 정점 수, 모든 경로에서의 용량은 1로 고정
 capacity = [[0]*v for _ in range(v)] # 용량
 flow = [[0]*v for _ in range(v)] # 유량
-adj = [[] for _ in range(v)] # 연결된 정점
+adj = [[] for _ in range(v)] # 연결된 정점(source + 소 + 축사 + sink)
 for _n in range(1, n+1): # source와 소 매칭
     adj[0].append(_n)
     adj[_n].append(0)
