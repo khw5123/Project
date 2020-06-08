@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <title>real time price</title>
+</head>
+<body>
+
+<h1>실시간 가격 정보</h1>
+<!--<h3>품종 : <span th:text="${kind}"></span></h3>-->
+<!--<h3>id = <span th:text="${fruit.kind}"></span></h3>-->
+<!--<button type="button" class="navyBtn" onclick="location.href='price/real_time_price?delngDe=20200507&prdlstNm=고구마&spciesNm=&whsalNm='">-->
+<!--    20200507 / 고구마-->
+<!--</button>-->
+<!--<button type="button" class="bar" onclick="location.href='price/real_time_price?delngDe=20200507&prdlstNm=고구마&spciesNm=호박고구마&whsalNm='">-->
+<!--    20200507 / 고구마 / 호박고구마-->
+<!--</button>-->
+<!--<button type="button" class="block" onclick="location.href='price/real_time_price?delngDe=20200507&prdlstNm=고구마&spciesNm=밤고구마&whsalNm='">-->
+<!--    20200507 / 고구마 / 밤고구마-->
+<!--</button>-->
+<!--<button type="button" onclick="location.href='price/real_time_price?delngDe=20200507&prdlstNm=포도&spciesNm=&whsalNm='">-->
+<!--    20200507 / 포도-->
+<!--</button>-->
+<!--<button type="button" onclick="location.href='price/real_time_price?delngDe=20200507&prdlstNm=포도&spciesNm=&whsalNm=인천삼산도매시장'">-->
+<!--    20200507 / 포도 / 인천삼산도매시장-->
+<!--</button>-->
+
+<form action="/Price/RealTimePrice" method="post">
+    <input type="text" name="delngDe" placeholder="경략일자">
+    <input type="text" name="prdlstNm" placeholder="품목명">
+    <input type="text" name="spciesNm" placeholder="품종명">
+    <input type="text" name="whsalNm" placeholder="시장명">
+    <input type="submit" value="조회">
+</form>
+
+<div id="mainHide">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="col-md-2">경매시간</th>
+            <th class="col-md-2">시장명</th>
+            <th class="col-md-1">부류명</th>
+            <th class="col-md-1">품목명</th>
+            <th class="col-md-1">품종명</th>
+            <th class="col-md-1">거래단량</th> <!-- 거래단량 + 단위명 -->
+            <th class="col-md-1">등급명</th>
+            <th class="col-md-1">거래가격</th>
+            <th class="col-md-1">거래량</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="realTimePrice : ${realTimePriceList}">
+            <td th:text="${realTimePrice.sbidTime}"></td>
+            <td th:text="${realTimePrice.whsalMrktNm}"></td>
+            <td th:text="${realTimePrice.catgoryNewNm}"></td>
+            <td th:text="${realTimePrice.stdPrdlstNewNm}"></td>
+            <td th:text="${realTimePrice.stdSpciesNewNm}"></td>
+            <td><span th:text="${realTimePrice.delngPrut}"></span><span th:text="${realTimePrice.stdUnitNewNm}"></span></td>
+            <td th:text="${realTimePrice.stdQlityNewNm}"></td>
+            <td th:text="${realTimePrice.sbidPric}"></td>
+            <td th:text="${realTimePrice.delngQy}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<span th:text="${message}" style="font-size: 20px"></span>
+
+</body>
+</html>

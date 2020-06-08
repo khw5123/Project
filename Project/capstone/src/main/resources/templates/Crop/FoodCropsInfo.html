@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <title>작물 정보</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="FoodCropsInfo">식량작물</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">작물 정보<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="FoodCropsInfo">식량작물</a></li>
+                                <li class="divider"></li>
+                                <li><a href="SpecialCropsInfo">특용작물</a></li>
+                                <li class="divider"></li>
+                                <li><a href="VegetableInfo">채소</a></li>
+                                <li class="divider"></li>
+                                <li><a href="FruitInfo">과수</a></li>
+                                <li class="divider"></li>
+                                <li><a href="FloweringPlantInfo">화훼</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="../AreaFarmInfo">지역별 작목 정보</a></li>
+                        <li><a href="../Price/RealTimePrice">작물 가격</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <form id="cropForm" method="post">
+            <div class="input-append">
+                <input class="span2" id="cropButton" name="cropName" type="hidden">
+                <div class="btn-group">
+                    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><span th:text="${cropName}"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li onclick="$('#cropButton').val('감자'); $('#cropForm').submit()">감자</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('강낭콩'); $('#cropForm').submit()">강낭콩</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('고구마'); $('#cropForm').submit()">고구마</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('귀리'); $('#cropForm').submit()">귀리</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('기장'); $('#cropForm').submit()">기장</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('기타맥류'); $('#cropForm').submit()">기타맥류</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('기타잡곡류'); $('#cropForm').submit()">기타잡곡류</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('녹두'); $('#cropForm').submit()">녹두</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('논벼'); $('#cropForm').submit()">논벼</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('동부'); $('#cropForm').submit()">동부</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('라이밀'); $('#cropForm').submit()">라이밀</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('메밀'); $('#cropForm').submit()">메밀</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('밀'); $('#cropForm').submit()">밀</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('밭벼'); $('#cropForm').submit()">밭벼</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('보리'); $('#cropForm').submit()">보리</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('수수'); $('#cropForm').submit()">수수</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('옥수수'); $('#cropForm').submit()">옥수수</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('완두'); $('#cropForm').submit()">완두</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('조'); $('#cropForm').submit()">조</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('콩'); $('#cropForm').submit()">콩</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('팥'); $('#cropForm').submit()">팥</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('피'); $('#cropForm').submit()">피</li>
+                        <li class="divider"></li>
+                        <li onclick="$('#cropButton').val('호밀'); $('#cropForm').submit()">호밀</li>
+                        <li class="divider"></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <br>
+        <div class="container-fluid">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1">번호</th>
+                        <th class="col-xs-2">사진</th>
+                        <th class="col-xs-1">품종명</th>
+                        <th class="col-xs-1">육성년도</th>
+                        <th class="col-xs-1">육성기관</th>
+                        <th class="col-xs-5">주요특성</th>
+                        <th class="col-xs-1">설명문서</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr th:each="crop : ${cropList}">
+                            <td th:text="${crop.getId()}"></td>
+                            <td><img class="img-responsive img-rounded" th:src="${crop.getImgFileLinkOriginal()}"></td>
+                            <td th:text="${crop.getCntntsSj()}"></td>
+                            <td th:text="${crop.getUnbrngYear()}"></td>
+                            <td th:text="${crop.getUnbrngInsttInfo()}"></td>
+                            <td th:text="${crop.getMainChartrInfo()}"></td>
+                            <td><a th:href="${crop.getAtchFileLink()}">다운로드</a></td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+    </body>
+</html>
