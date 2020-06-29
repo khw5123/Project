@@ -13,7 +13,7 @@ def makeTree(start):
                 if depth[_next] == -1:
                     parent[_next][0] = node
                     depth[_next] = depth[node]+1
-                    # 현재 노드와 연결된 노드 사이의 거리 저장
+                    # 현재 노드와 연결된 노드 사이의 거리 저장 
                     _min[_next][0] = distance[node][_next]
                     _max[_next][0] = distance[node][_next]
                     queue.append(_next)
