@@ -9,9 +9,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +21,6 @@ public class TempleController {
     private List<Temple> templeObj = new ArrayList<Temple>();
     private List<String> temple = new ArrayList<String>();
     private List<String> boundary = new ArrayList<String>();
-
-    // 버튼 누르면 주변 범위(원, 직선) ON/OFF
-    // 검색 시 이동
-    // 사찰과 범위 설정해서 검색한 범위 내 사찰들만 보여주기
-    // 범위 설정해서 범위 내 최단거리 보여주기
 
     public TempleController() {
         try {
@@ -74,10 +67,47 @@ public class TempleController {
         }
     }
 
-    @RequestMapping("/index")
-    public String index(Model model) {
+    // 서울특별시 행정동 경계 표시
+    @RequestMapping("/boundary")
+    public String boundary(Model model) {
         model.addAttribute("temple", temple);
         model.addAttribute("boundary", boundary);
-        return "index";
+        return "boundary";
+    }
+
+    // 사찰 주변 점위와 사찰간 거리 표시
+    @RequestMapping("/distance")
+    public String distance(Model model) {
+        model.addAttribute("temple", temple);
+        return "distance";
+    }
+
+    // 사찰 검색
+    @RequestMapping("/search")
+    public String search(Model model) {
+        model.addAttribute("temple", temple);
+        model.addAttribute("templeObj", templeObj);
+        return "search";
+    }
+
+    // 현재 위치 주변에 있는 사찰만 표시
+    @RequestMapping("/range")
+    public String range(Model model) {
+        model.addAttribute("temple", temple);
+        return "range";
+    }
+
+    // 범위 내 최소 비용 경로 표시
+    @RequestMapping("/kruskal")
+    public String kruskal(Model model) {
+        model.addAttribute("temple", temple);
+        return "kruskal";
+    }
+
+    // 출발지에서 목적지로 가는 최단 경로 표시
+    @RequestMapping("/dijkstra")
+    public String dijkstra(Model model) {
+        model.addAttribute("temple", temple);
+        return "dijkstra";
     }
 }

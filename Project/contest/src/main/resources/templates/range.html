@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <title>주변 탐색</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="./range">주변 탐색</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="./boundary">경계 표시</a></li>
+                        <li><a href="./distance">범위 거리</a></li>
+                        <li><a href="./search">사찰 검색</a></li>
+                        <li><a href="./range">주변 탐색</a></li>
+                        <li><a href="./kruskal">최소 비용</a></li>
+                        <li><a href="./dijkstra">최단 경로</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="map" style="width:100%;height:600px;position:relative;z-index:1;"></div>
+            <div class="input-append" style="position:relative;left:5px;top:-590px;z-index:2;">
+                <div class="btn-group">
+                    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown">범위<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li th:attr="onclick=|showRange(100)|">100M</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(500)|">500M</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(1000)|">1KM</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(5000)|">5KM</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(10000)|">10KM</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(20000)|">20KM</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(25000)|">25KM</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(30000)|">30KM</li>
+                        <li class="divider"></li>
+                        <li th:attr="onclick=|showRange(40000)|">40KM</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5db5bc5cb635e2c58b02d573f5402a27"></script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var data = /*[[${temple}]]*/ 'default';
+            /*]]>*/
+
+            var temple = [];
+            for (var i = 0; i < data.length; i++) {
+                var info = JSON.parse(data[i]);
+                temple.push({"name":info.name, "tel":info.tel, "lat":info.lat, "lon":info.lon});
+            }
+
+            var lat = 37.566535;
+            var lon = 126.9779692;
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(lat, lon), // 지도의 중심 좌표
+                    level: 8 // 지도의 확대 레벨
+                };
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
+
+            // 마커 표시
+            var positions = [] // 마커를 표시할 위치와 title 객체 배열
+            for (var i = 0; i < temple.length; i++) {
+                positions.push({title:temple[i]["name"], lat:temple[i]["lat"], lon:temple[i]["lon"], latlng: new kakao.maps.LatLng(temple[i]["lat"], temple[i]["lon"])});
+            }
+            var markers = [] // 마커가 저장될 배열
+            var imageSrc = "https://t1.kakaocdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; // 마커 이미지의 이미지 주소
+            for (var i = 0; i < positions.length; i ++) {
+                var imageSize = new kakao.maps.Size(24, 35); // 마커 이미지의 크기
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지 생성
+                var marker = new kakao.maps.Marker({ // 마커 생성
+                    map: map, // 마커를 표시할 지도
+                    position: positions[i].latlng, // 마커를 표시할 위치
+                    title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨
+                    image : markerImage // 마커 이미지
+                });
+                markers.push(marker);
+            }
+            var lines = [] // 선들이 저장될 배열
+            var overlays = [] // 오버레이들이 저장될 배열
+            var circle = [] // 반경이 저장될 변수
+
+            function showRange(distance) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                markers = [];
+                for (var i = 0; i < lines.length; i++) {
+                    lines[i].setMap(null);
+                    overlays[i].setMap(null);
+                }
+                lines = [];
+                overlays = [];
+                for (var i = 0; i < circle.length; i++) {
+                    circle[i].setMap(null);
+                }
+                circle = [];
+                navigator.geolocation.getCurrentPosition(success);
+                function success(pos) {
+                    var lat = pos.coords.latitude; // 현재 위도
+                    var lon = pos.coords.longitude; // 현재 경도
+                    var circle2 = new kakao.maps.Circle({ // 지도에 표시할 원 생성
+                        center : new kakao.maps.LatLng(lat, lon), // 원의 중심 좌표
+                        radius: distance, // 미터 단위의 원의 반지름
+                        strokeWeight: 5, // 선의 두께
+                        strokeColor: '#75B8FA', // 선의 색깔
+                        strokeOpacity: 1, // 선의 불투명도, 1에서 0 사이의 값이며 0에 가까울수록 투명함
+                        strokeStyle: 'dashed', // 선의 스타일
+                        fillColor: '#CFE7FF', // 채우기 색깔
+                        fillOpacity: 0.5  // 채우기 불투명도
+                    });
+                    circle2.setMap(map); // 지도에 원 표시
+                    circle.push(circle2);
+                    var currentLocation = new kakao.maps.LatLng(lat, lon); // 이동할 위도 경도 위치를 생성
+                    map.setCenter(currentLocation); // 지도 중심 이동
+                    var linePath;
+                    var lineLine = new kakao.maps.Polyline();
+                    for (var i = 0; i < temple.length; i++) {
+                        linePath = [currentLocation, positions[i].latlng]; // 두 위치 지정
+                        lineLine.setPath(linePath);
+                        if (Math.round(lineLine.getLength()) <= distance) {
+                            var imageSize = new kakao.maps.Size(24, 35); // 마커 이미지의 크기
+                            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지 생성
+                            var marker = new kakao.maps.Marker({ // 마커 생성
+                                map: map, // 마커를 표시할 지도
+                                position: positions[i].latlng, // 마커를 표시할 위치
+                                title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨
+                                image : markerImage // 마커 이미지
+                            });
+                            markers.push(marker);
+                            var drawLine = new kakao.maps.Polyline({
+                                map: map, // 선을 표시할 지도
+                                path: linePath,
+                                strokeWeight: 3, // 선의 두께
+                                strokeColor: '#db4040', // 선의 색깔
+                                strokeOpacity: 1, // 선의 불투명도, 0에서 1 사이값이며 0에 가까울수록 투명함
+                                strokeStyle: 'solid' // 선의 스타일
+                            });
+                            lines.push(drawLine);
+                            var distanceOverlay = new kakao.maps.CustomOverlay({
+                                content: '<div class="dotOverlay">거리 <span class="number">' + Math.round(lineLine.getLength()) + '</span>m</div>',
+                                position: new kakao.maps.LatLng((lat + positions[i].lat) / 2, (lon + positions[i].lon) / 2),
+                                yAnchor: 1,
+                                zIndex: 2
+                            });
+                            distanceOverlay.setMap(map); // 거리를 지도에 표시
+                            overlays.push(distanceOverlay);
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
