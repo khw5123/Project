@@ -3,7 +3,6 @@ package com.example.demo.dao;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.util.List;
 
 @Getter @Setter @ToString
