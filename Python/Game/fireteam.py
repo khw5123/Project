@@ -78,7 +78,7 @@ def show():
     print()
 
 '''
-# 디버깅 코드
+# 공격대원 랜덤으로 구성 후 테스트
 def test():
     import random
     a = 0
@@ -89,7 +89,7 @@ def test():
                 a += 1
                 if a == 16:
                     break
-test()
+test() # 디버깅 코드
 '''
 
 party = [[] for _ in range(partyCount)] # 공격대에 존재하는 파티
@@ -206,7 +206,7 @@ else:
                         fireteam[k] -= 1
                         if fireteam[k] == 0:
                             break
-    # show()
+    # show() # 디버깅 코드
     while True:
         confirm = True
         for i in range(partyCount):
